@@ -48,7 +48,7 @@ link *push(patient a,link *curr){
         while(curr->next&&(a.year>curr->zero.year||(a.year==curr->zero.year&&a.month>curr->zero.month)||(a.year==curr->zero.year&&a.month==curr->zero.month&&a.date>curr->zero.date))){
             curr=curr->next;
         }
-        if(a.year>curr->zero.year||(a.year==curr->zero.year&&a.month>curr->zero.month)||(a.year==curr->zero.year&&a.month==curr->zero.month&&a.date>curr->zero.date)){
+        if(!curr->next&&(a.year>curr->zero.year||(a.year==curr->zero.year&&a.month>curr->zero.month)||(a.year==curr->zero.year&&a.month==curr->zero.month&&a.date>curr->zero.date))){
         	curr->next=newP;
             newP->prev=curr; 
 		}else if(!curr->prev){
