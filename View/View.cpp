@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "../Models/Models.h"
 #include "../Controller/Controller.h"
 
 int main(){
     int cureT,patientT;
-    link *head;
+    link *head=NULL;
    patient toAdd;
     scanf("%d %d",&patientT,&cureT);
     getchar();
