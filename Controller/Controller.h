@@ -46,23 +46,22 @@ link *push(patient a,link *curr){
     link *newP=createP(a);
     if(curr){
         
-        while(curr&&a.year>curr->zero.year){
+        while(curr->next&&a.year>curr->zero.year){
             curr=curr->next;
         }
-        while(curr&&a.month>curr->zero.month){
+        while(curr->next&&a.month>curr->zero.month){
             curr=curr->next;
         }
-        while(curr&&a.date>curr->zero.date){
+        while(curr->next&&a.date>curr->zero.date){
             curr=curr->next;
         }
-        if(!curr){
+        if(!curr->next){
             curr->next=newP;
             newP->prev=curr; 
-            
-            return newP;
         }else if(!curr->prev){
             newP->next=curr;
             curr->prev=newP;
+            return newP;
         }else{
              newP->next=curr;
              newP->prev=curr->prev;
