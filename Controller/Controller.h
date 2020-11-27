@@ -43,26 +43,18 @@ link *createP(patient a){
 }
 
 link *push(patient a,link *curr){
-    link *newP=createP(a);
-    
+    link *newP=createP(a),*temp=curr;
     if(curr){
-        link *temp=curr;    
-        while(curr->next&&a.year>curr->zero.year){
+        while(curr->next&&(a.year>curr->zero.year||(a.year==curr->zero.year&&a.month>curr->zero.month)||(a.year==curr->zero.year&&a.month==curr->zero.month&&a.date>curr->zero.date))){
             curr=curr->next;
         }
-        while(curr->next&&a.month>curr->zero.month){
-            curr=curr->next;
-        }
-        while(curr->next&&a.date>curr->zero.date){
-            curr=curr->next;
-        }
-        if(!curr->next){
-            curr->next=newP;
+        if(a.year>curr->zero.year||(a.year==curr->zero.year&&a.month>curr->zero.month)||(a.year==curr->zero.year&&a.month==curr->zero.month&&a.date>curr->zero.date)){
+        	curr->next=newP;
             newP->prev=curr; 
-        }else if(!curr->prev){
+		}else if(!curr->prev){
             newP->next=curr;
             curr->prev=newP;
-            return newP;
+             return newP;
         }else{
              newP->next=curr;
              newP->prev=curr->prev;
