@@ -54,11 +54,11 @@ link *push(patient a,link *curr){
         while(curr&&a.date>curr->zero.date){
             curr=curr->next;
         }
-        if(!curr->prev){
+        if(!curr){
             newP->next=curr;
             curr->prev=newP;
              return newP;
-        }else if(!curr){
+        }else if(!curr->prev){
             curr->next=newP;
             newP->prev=curr;
         }else{
