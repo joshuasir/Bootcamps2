@@ -58,7 +58,7 @@ link *push(patient a,link *curr){
             newP->next=curr;
             curr->prev=newP;
              return newP;
-        }else if(!curr->next){
+        }else if(!curr){
             curr->next=newP;
             newP->prev=curr;
         }else{
