@@ -45,6 +45,7 @@ link *createP(patient a){
 link *push(patient a,link *curr){
     link *newP=createP(a);
     if(curr){
+        
         while(curr&&a.year>curr->zero.year){
             curr=curr->next;
         }
@@ -55,12 +56,13 @@ link *push(patient a,link *curr){
             curr=curr->next;
         }
         if(!curr){
-            newP->next=curr;
-            curr->prev=newP;
-            return newP;
-        }else if(!curr->prev){
             curr->next=newP;
             newP->prev=curr; 
+            
+            return newP;
+        }else if(!curr->prev){
+            newP->next=curr;
+            curr->prev=newP;
         }else{
              newP->next=curr;
              newP->prev=curr->prev;
