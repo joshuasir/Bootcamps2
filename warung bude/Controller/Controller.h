@@ -24,7 +24,7 @@ customer *createCustom(char *name){
 const char* detectOS() {
   #ifdef _WIN32
   return "Windows 32-bit";
-  #elif _WIN64
+  #elif _WIN32
   return "Windows 64-bit";
   #elif __APPLE__ || __MACH__
   return "Mac OSX";
@@ -83,20 +83,53 @@ customer *findCust(char *name){
         return NULL;
     }
 }
-void addOrder(customer *temp,link *dish,int quant){
-    if(temp&&dish&&dish->food.quant>=quant){
-        link *newD=createDish(dish->food);
-        dish->food.quant-=quant;
-        newD->food.quant=quant;
-        if(!temp->fhead){
-            temp->fhead=temp->ftail=newD;
+void deleteDish(link *toDel){
+    if(head==tail){
+        head=tail=NULL;
+        free(head);
+    }else if(head){
+        if(toDel==head){
+            head=head->next;
+            head->prev=head->prev->next=NULL;
+        }else if(toDel==tail){
+            curr=tail;
+            tail=tail->prev;
+            tail->next=tail->next->prev=NULL;
         }else{
-            temp->ftail->next=newD;
-            newD->prev=temp->ftail;
-            temp->ftail=newD;
+            toDel->prev->next=toDel->next;
+            toDel->next->prev=toDel->prev;
+            toDel->next=toDel->prev=NULL;
         }
+        free(toDel);
+        toDel=NULL;
     }
 }
+void addOrder(customer *temp,link *dish,int quant){
+    if(temp&&dish&&dish->food.quant>=quant){
+        if(!temp->fhead){
+            link *newD=createDish(dish->food);
+            newD->food.quant=quant;
+            temp->fhead=temp->ftail=newD;
+        }else{
+        curr=temp->fhead;
+        while(curr->next&&strcmp(curr->food.name,dish->food.name)){
+            curr=curr->next;
+        }
+        if(!strcmp(curr->food.name,dish->food.name)){
+            curr->food.quant+=quant;
+        }else{
+           link *newD=createDish(dish->food);
+           newD->food.quant=quant;
+           temp->ftail->next=newD;
+           newD->prev=temp->ftail;
+           temp->ftail=newD;
+        }
+        dish->food.quant-=quant;
+        if(!dish->food.quant){
+            deleteDish(dish);
+        }
+    }
+}}
 void deleteCust(customer *guy){
     int key=hashkey(guy->name);
     if(guy->next||guy->prev){
@@ -122,7 +155,7 @@ void payment(customer *guy){
     int num=1,sum=0;
     while(guy->fcurr){
         printf("[%d] %s x%d\n",num,guy->fcurr->food.name,guy->fcurr->food.quant);
-        sum+=guy->fcurr->food.price;
+        sum+=(guy->fcurr->food.price*guy->fcurr->food.quant);
         num++;
         curr=guy->fcurr;
         guy->fcurr=guy->fcurr->next;
@@ -143,8 +176,7 @@ void viewCust(){
         while(temp){
             printf("%d. %s\n",i,temp->name);
             temp=temp->next;
-        }
-        }
+        }}
     }
 }
 void newDish(dish a){
@@ -190,37 +222,17 @@ void viewDish(){
     if(head){
     curr=head;
     char num='1';
-    printf("\tBude's Menu\n========================\n");
-    printf("%-2s %-5s %-3s %-3s\n","No.","Name","Quantity","Price");
+    printf("        Bude's Menu\n===========================\n");
+    printf("%-2s %-5s %-10s %-5s\n","No.","Name","Quantity","Price");
     
     while(curr){
-        printf("%c %-5s %03d %-3d\n",num,curr->food.name,curr->food.quant,curr->food.price);
+        printf("%c.%-5s   %03d   Rp%d\n",num,curr->food.name,curr->food.quant,curr->food.price);
         curr=curr->next;
         num++;
     }
-    printf("========================\n");}
+    printf("===========================\n");}
 }
-void deleteDish(link *toDel){
-    if(head==tail){
-        head=tail=NULL;
-        free(head);
-    }else if(head){
-        if(toDel==head){
-            head=head->next;
-            head->prev=head->prev->next=NULL;
-        }else if(toDel==tail){
-            curr=tail;
-            tail=tail->prev;
-            tail->next=tail->next->prev=NULL;
-        }else{
-            toDel->prev->next=toDel->next;
-            toDel->next->prev=toDel->prev;
-            toDel->next=toDel->prev=NULL;
-        }
-        free(toDel);
-        toDel=NULL;
-    }
-}
+
 int valName(char *str){
     for(int i=0;i<strlen(str);i++){
         if(str[i]<'a'||str[i]>'z'){

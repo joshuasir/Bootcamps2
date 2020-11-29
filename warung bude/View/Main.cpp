@@ -5,28 +5,30 @@ int main(){
     dish toAdd;
     customer alsoAdd;
     do{
+    toAdd.name[0]='\0';
+    alsoAdd.name[0]='\0';
     system("cls");
-    printf("System: %s\n%s\n1. Add Dish\n2. Remove Dish\n3. Add Customer\n4. Search Customer\n5. View Warteg\n6. Order\n7. Payment\n8. Exit Warteg\n>>",detectOS(),getDate());
+    printf("System: %s\n%s1. Add Dish\n2. Remove Dish\n3. Add Customer\n4. Search Customer\n5. View Warteg\n6. Order\n7. Payment\n8. Exit Warteg\n>>",detectOS(),getDate());
     scanf("%d",&choose);
     getchar();
     switch(choose){
         case 1:
         do{
-        printf("Insert the name of the dish [Lowercase letters]: ");
-        scanf("%[^\n]",toAdd.name);
-        getchar();
+            printf("Insert the name of the dish [Lowercase letters]: ");
+            scanf("%[^\n]",toAdd.name);
+            getchar();
         }while(valName(toAdd.name)||findDish(toAdd.name));
 
         do{
-        printf("Insert the price of the dish [1000...50000]: ");
-        scanf("%d",&toAdd.price);
-        getchar();
+            printf("Insert the price of the dish [1000...50000]: ");
+            scanf("%d",&toAdd.price);
+            getchar();
         }while(toAdd.price<1000||toAdd.price>50000);
 
         do{
-        printf("Insert the quantity of the dish [1..999]: ");
-        scanf("%d",&toAdd.quant);
-        getchar();
+            printf("Insert the quantity of the dish [1..999]: ");
+            scanf("%d",&toAdd.quant);
+            getchar();
         }while(toAdd.quant<1||toAdd.quant>999);
 
         printf("The dish has been added!\nPress enter to continue...");
@@ -37,19 +39,22 @@ int main(){
         if(head){
         viewDish();
         do{
-        printf("Insert dish's name to be deleted: ");
-        scanf("%[^\n]",toAdd.name);
-        getchar();
+            printf("Insert dish's name to be deleted: ");
+            scanf("%[^\n]",toAdd.name);
+            getchar();
         }while(!findDish(toAdd.name));
+
         printf("The dish has been removed!\nPress enter to continue...\n");
         getchar();
         deleteDish(findDish(toAdd.name));}
         break;
         case 3:
         do{
-        printf("Insert the customer's name[Without space]: ");
-        scanf("%[^\n]",toAdd.name);
-        getchar();}while(valcName(toAdd.name));
+            printf("Insert the customer's name[Without space]: ");
+            scanf("%[^\n]",toAdd.name);
+            getchar();
+        }while(valcName(toAdd.name));
+
         printf("Customer has been added!\nPress enter to continue...\n");
         getchar();
         newCust(toAdd.name);
@@ -74,9 +79,11 @@ int main(){
         break;
         case 6:
         do{
-        printf("Insert the customer's name: ");
-        scanf("%[^\n]",alsoAdd.name);
-        getchar();}while(!findCust(alsoAdd.name));
+            printf("Insert the customer's name: ");
+            scanf("%[^\n]",alsoAdd.name);
+            getchar();
+        }while(!findCust(alsoAdd.name));
+
         printf("Insert the amount of dish: ");
         scanf("%d",&many);
         getchar();
@@ -96,9 +103,10 @@ int main(){
         break;
         case 7:
         do{
-        printf("Insert the customer's name: ");
-        scanf("%[^\n]",toAdd.name);
-        getchar();}while(!findCust(toAdd.name));
+            printf("Insert the customer's name: ");
+            scanf("%[^\n]",toAdd.name);
+            getchar();
+        }while(!findCust(toAdd.name));
         payment(findCust(toAdd.name));
         printf("Press enter to continue...\n");
         getchar();
@@ -109,4 +117,5 @@ int main(){
         splashFile();
     }
     }while(choose!=8);
+    return 0;
 }
