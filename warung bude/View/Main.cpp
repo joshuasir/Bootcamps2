@@ -1,7 +1,7 @@
 #include "../Controller/Controller.h"
 
 int main(){
-    int choose,many;
+    int choose,many,user;
     dish toAdd;
     customer alsoAdd;
     do{
@@ -103,11 +103,11 @@ int main(){
         break;
         case 7:
         do{
-            printf("Insert the customer's name: ");
-            scanf("%[^\n]",toAdd.name);
+            printf("Insert the customer's index: ");
+            scanf("%d",&user);
             getchar();
-        }while(!findCust(toAdd.name));
-        payment(findCust(toAdd.name));
+        }while((user<0||user>SIZE)||!tables[user]);
+        payment(tables[user],user);
         printf("Press enter to continue...\n");
         getchar();
         break;

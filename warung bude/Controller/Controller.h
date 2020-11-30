@@ -130,8 +130,7 @@ void addOrder(customer *temp,link *dish,int quant){
         }
     }
 }}
-void deleteCust(customer *guy){
-    int key=hashkey(guy->name);
+void deleteCust(customer *guy,int key){
     if(guy->next||guy->prev){
 
     if(!guy->next){
@@ -149,7 +148,7 @@ void deleteCust(customer *guy){
     free(guy);
     guy=NULL;
 }
-void payment(customer *guy){
+void payment(customer *guy,int key){
     if(guy){
     guy->fcurr=guy->fhead;
     int num=1,sum=0;
@@ -165,18 +164,24 @@ void payment(customer *guy){
         curr=NULL;
     }
     printf("Total: Rp%d\n",sum);
-    deleteCust(guy);}
+    deleteCust(guy,key);}
 }
 
 void viewCust(){
     customer *temp;
     for(int i=0;i<SIZE;i++){
         if(tables[i]){
+        printf("%d.",i);
         temp=tables[i];
         while(temp){
-            printf("%d. %s\n",i,temp->name);
+            printf(" %s",temp->name);
             temp=temp->next;
-        }}
+            if(temp){
+                printf(" ->");
+            }
+        }
+        puts("");
+        }
     }
 }
 void newDish(dish a){
